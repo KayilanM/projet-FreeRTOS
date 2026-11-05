@@ -73,25 +73,11 @@ if (protege)
 5. Pour le TP10, cocher l'option *Use float with printf* (affichage de `%f`).
 6. Ouvrir un terminal série (PuTTY, 115200 bauds) sur le port du ST-Link.
 
-## Corrections apportées par rapport aux comptes rendus
+## Revue du code
 
-- **TP2** : la remise à zéro du compteur se faisait après l'envoi, ce qui affichait `:`
-  après le 9, et le retour à la ligne était écrit sans attendre la fin de l'envoi précédent.
-  Le décompteur pouvait aussi passer sous zéro et afficher 4 294 967 295.
-- **TP4** : la condition des boucles était `i=40` (affectation, toujours vraie) au lieu de
-  `i<40`. Une fois la boucle finie, la tâche se termine aussi proprement avec `osThreadExit()`,
-  car une tâche FreeRTOS ne doit jamais simplement retourner.
-- **TP6** : la fonction d'envoi prenait le mutex sans vérifier qu'il existait. Un `printf`
-  appelé avant sa création ou avant le démarrage de l'ordonnanceur aurait bloqué ou planté
-  le programme. Les tâches sont aussi créées après `osKernelInitialize()`, dans la section
-  prévue par CubeMX, et non avant.
-- **TP7** : l'ancien état du bouton n'était jamais mis à jour, si bien que le sémaphore était
-  donné toutes les 10 ms tant que le bouton restait enfoncé, et non à chaque changement d'état.
-- **TP8** : la variable passée à `xSemaphoreGiveFromISR` n'était pas initialisée à `pdFALSE`,
-  ce qui pouvait provoquer des changements de contexte inutiles.
-- **Tous les TP** : les délais utilisent `pdMS_TO_TICKS()`, les sémaphores, files et groupes
-  d'événements sont créés avant les tâches qui les utilisent, et les formats de `printf`
-  correspondent aux types affichés.
+Le code a été relu et amélioré après les TP : conditions de boucle, fin propre des tâches,
+gestion des interruptions, création des objets FreeRTOS avant les tâches qui les utilisent
+et protection de `printf` par mutex.
 
 ## Auteurs
 
